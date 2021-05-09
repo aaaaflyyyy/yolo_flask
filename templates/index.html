@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+      window.jQuery || document.write('<script src="{{url_for('static', filename='jquery.js') }}">\x3C/script>')
+    </script>
+  </head>
+  <body>
+    <h1>Video Streaming Demonstration</h1>
+    <img src="{{ url_for('video_feed') }}" />
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <div id="contents"></div>
+        <canvas id="myChart" width="400" height="200"></canvas>
+      </div>
+    </div>
+  </body>
+  <script>
+    var ctx = document.getElementById("myChart").getContext("2d");
+
+    var myChart = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: ["People"],
+        datasets: [
+          {
+            label: "People",
+            data: [0],
+            borderColor: "rgb(255, 99, 132)",
+            backgroundColor: "rgba(255, 99, 132,0.5)",
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            min: 0,
+            max: 20,
+          },
+        },
+      },
+    });
+
+    setInterval(function () {
+      $.ajax({
+        type: "get",
+        url: "updata_data",
+        success: function (data) {
+          console.log(data.num);
+          myChart.data.datasets[0].data = data.num;
+          myChart.update();
+        },
+      });
+    }, 1000);
+  </script>
+</html>

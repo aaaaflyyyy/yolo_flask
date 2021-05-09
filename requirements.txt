@@ -1,0 +1,12 @@
+# pip install -r requirements.txt
+
+matplotlib
+numpy
+opencv-python
+Pillow
+PyYAML
+scipy
+tqdm
+seaborn
+pandas
+flask
