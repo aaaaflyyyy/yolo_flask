@@ -7,10 +7,26 @@
     <script>
       window.jQuery || document.write('<script src="{{url_for('static', filename='jquery.js') }}">\x3C/script>')
     </script>
+
+    <style>
+      #img_view{
+        width: 640px;
+        float: left;
+        margin-right: 10px;
+      }
+      #myModal{
+        float: left;
+        width: 960px;
+      }
+      
+    </style>
+
   </head>
   <body>
-    <h1>Video Streaming Demonstration</h1>
-    <img src="{{ url_for('video_feed') }}" />
+    <h1>Yolo Demo.</h1>
+    <img id="img_view" src="{{ url_for('video_feed') }}" />.
+    <!-- <img src="{{url_for('static', filename='img.jpg') }}" /> -->
+
     <div id="myModal" class="modal">
       <div class="modal-content">
         <div id="contents"></div>

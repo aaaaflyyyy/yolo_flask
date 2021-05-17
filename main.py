@@ -26,12 +26,10 @@ num = [0]
 # Initialize the Flask app
 app = Flask(__name__)
 
-camera = cv2.VideoCapture(0)
-
 
 def detect():
     source = '0'
-    weights = 'yolov3.pt'
+    weights = 'best.pt'
     imgsz = 640
 
     view_img = False
@@ -87,7 +85,7 @@ def detect():
         pred = model(img, augment=False)[0]
 
         # Apply NMS
-        conf_thres = 0.25
+        conf_thres = 0.5
         iou_thres = 0.45
         pred = non_max_suppression(
             pred, conf_thres, iou_thres, classes=None, agnostic=False)
@@ -108,6 +106,7 @@ def detect():
             s += '%gx%g ' % img.shape[2:]  # print string
             # normalization gain whwh
             gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]
+            num[0] = 0
             if len(det):
                 # Rescale boxes from img_size to im0 size
                 det[:, :4] = scale_coords(
@@ -134,12 +133,14 @@ def detect():
                         continue
 
                     if save_img or view_img:  # Add bbox to image
-                        label = f'{names[int(cls)]} {conf:.2f}'
+                        # label = f'{names[int(cls)]} {conf:.2f}'
+                        label=None
                         plot_one_box(xyxy, im0, label=label,
                                      color=colors[int(cls)], line_thickness=3)
+            print(int(n))
 
             # # Print time (inference + NMS)
-            # print(f'{s}Done. ({t2 - t1:.3f}s)')
+            # print(f'{s}Done.')
 
             # Stream results
             if view_img:
